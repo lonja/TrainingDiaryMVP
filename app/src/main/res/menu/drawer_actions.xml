@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/group_features"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_profile"
+            android:title="@string/profile"
+            android:icon="@drawable/account"/>
+        <item
+            android:id="@+id/nav_trainings"
+            android:title="@string/trainings"
+            android:icon="@drawable/table_large"/>
+        <item
+            android:id="@+id/nav_exercises"
+            android:title="@string/exercises"
+            android:icon="@drawable/dumbbell"/>
+        <item
+            android:id="@+id/nav_schemas"
+            android:title="@string/schemas"
+            android:icon="@drawable/calendar_text" />
+        <item
+            android:id="@+id/nav_statistics"
+            android:title="@string/statistics"
+            android:icon="@drawable/chart_areaspline"/>
+        <item
+            android:id="@+id/nav_measurements"
+            android:title="@string/measurements"
+            android:icon="@drawable/ruler"/>
+    </group>
+    <group
+        android:id="@+id/group_settings"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_settings"
+            android:title="@string/action_settings"
+            android:icon="@drawable/settings"/>
+    </group>
+
+</menu>
