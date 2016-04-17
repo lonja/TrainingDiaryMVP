@@ -65,8 +65,28 @@ public class MeasurementsRepository implements MeasurementsDataSource {
 
 
     @Override
-    public void getMeasurement(@NonNull String measurementId, @NonNull GetMeasurementCallback callback) {
+    public void getMeasurement(@NonNull String measurementId, @NonNull final GetMeasurementCallback callback) {
+        checkNotNull(measurementId);
+        checkNotNull(callback);
 
+        Measurement cachedMeasurement = getMeasurementWithId(measurementId);
+
+        if (cachedMeasurement != null) {
+            callback.onMeasurementLoaded(cachedMeasurement);
+            return;
+        }
+
+        mMeasurementsLocalDataSource.getMeasurement(measurementId, new GetMeasurementCallback() {
+            @Override
+            public void onMeasurementLoaded(Measurement measurement) {
+                callback.onMeasurementLoaded(measurement);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+                callback.onDataNotAvailable();
+            }
+        });
     }
 
     @Override
@@ -77,6 +97,14 @@ public class MeasurementsRepository implements MeasurementsDataSource {
         if (mCachedMeasurements == null) {
             mCachedMeasurements = new LinkedHashMap<>();
         }
+        mCachedMeasurements.put(measurement.getId(), measurement);
+    }
+
+    @Override
+    public void updateMeasurement(@NonNull Measurement measurement) {
+        checkNotNull(measurement);
+        mMeasurementsLocalDataSource.updateMeasurement(measurement);
+        mCachedMeasurements.remove(measurement.getId());
         mCachedMeasurements.put(measurement.getId(), measurement);
     }
 

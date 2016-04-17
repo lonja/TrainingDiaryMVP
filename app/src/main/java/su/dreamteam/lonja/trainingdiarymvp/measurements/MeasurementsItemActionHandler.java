@@ -11,7 +11,7 @@ public class MeasurementsItemActionHandler {
         mListener = listener;
     }
 
-    public void measurementClicker(Measurement measurement) {
+    public void measurementClicked(Measurement measurement) {
         mListener.editMeasurement(measurement);
     }
 

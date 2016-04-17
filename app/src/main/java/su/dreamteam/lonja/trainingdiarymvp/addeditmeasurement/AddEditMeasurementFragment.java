@@ -19,13 +19,16 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import su.dreamteam.lonja.trainingdiarymvp.BR;
 import su.dreamteam.lonja.trainingdiarymvp.R;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
 import su.dreamteam.lonja.trainingdiarymvp.databinding.FragmentAddEditMeasurementBinding;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class AddEditMeasurementFragment extends Fragment implements AddEditMeasurementContract.View {
+public class AddEditMeasurementFragment
+        extends Fragment
+        implements AddEditMeasurementContract.View {
 
     int mYear, mMonth, mDay, mHour, mMinute;
 
@@ -37,20 +40,20 @@ public class AddEditMeasurementFragment extends Fragment implements AddEditMeasu
 
     private MeasurementViewModel mMeasurementViewModel;
 
+    private Calendar calendar;
+
     public AddEditMeasurementFragment() {
 
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Calendar calendar = new GregorianCalendar();
-        mYear = calendar.get(Calendar.YEAR);
-        mMonth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        mHour = calendar.get(Calendar.HOUR_OF_DAY);
-        mMinute = calendar.get(Calendar.MINUTE);
-        mAddEditMeasurementBinding = FragmentAddEditMeasurementBinding.inflate(inflater, container, false);
+    public View onCreateView(LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        calendar = new GregorianCalendar();
+        mAddEditMeasurementBinding = FragmentAddEditMeasurementBinding
+                .inflate(inflater, container, false);
         mAddEditMeasurementBinding.setActionHandler(mPresenter);
         mAddEditMeasurementBinding.setMeasurement(mMeasurementViewModel);
         setHasOptionsMenu(true);
@@ -105,9 +108,8 @@ public class AddEditMeasurementFragment extends Fragment implements AddEditMeasu
                 mYear = year;
                 mMonth = monthOfYear;
                 mDay = dayOfMonth;
-                final Calendar date = new GregorianCalendar(mYear, mMonth, mDay);
+                final Calendar date = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute);
                 setTime(date);
-                mMeasurementViewModel.setDate(date);
             }
         }, mYear, mMonth, mDay);
         dialog.show();
@@ -121,6 +123,7 @@ public class AddEditMeasurementFragment extends Fragment implements AddEditMeasu
                 mMinute = minute;
                 calendar.set(Calendar.HOUR_OF_DAY, mHour);
                 calendar.set(Calendar.MINUTE, minute);
+                mMeasurementViewModel.setDate(calendar);
             }
         }, mHour, mMinute, true);
         dialog.show();
@@ -131,7 +134,10 @@ public class AddEditMeasurementFragment extends Fragment implements AddEditMeasu
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_comment, null);
         final EditText commentEditText = (EditText) dialogView.findViewById(R.id.dialog_comment_edit);
-        commentEditText.setText(mMeasurementViewModel.getComment());
+
+        if (!mMeasurementViewModel.getComment().equals("Enter comment")) {
+            commentEditText.setText(mMeasurementViewModel.getComment());
+        }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.comment)
@@ -155,6 +161,13 @@ public class AddEditMeasurementFragment extends Fragment implements AddEditMeasu
     @Override
     public void setMeasurement(Measurement measurement) {
         mMeasurementViewModel.setMeasurement(measurement);
+//        mMeasurementViewModel.setValues();
+        calendar.setTime(mMeasurementViewModel.getMeasurement().getDate());
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        mHour = calendar.get(Calendar.HOUR_OF_DAY);
+        mMinute = calendar.get(Calendar.MINUTE);
     }
 
     public void setViewModel(MeasurementViewModel viewModel) {

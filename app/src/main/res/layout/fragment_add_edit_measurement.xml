@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -122,9 +123,10 @@
                         android:layout_height="wrap_content"
                         android:clickable="false"
                         android:hint="@string/weight"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:selectAllOnFocus="true"
-                        android:text="@{measurement.weight}" />
+                        android:text="@{measurement.weight}"
+                        bind:addTextChangedListener="@{measurement.weightTextWatcher}" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -138,9 +140,10 @@
                         android:layout_height="wrap_content"
                         android:clickable="false"
                         android:hint="@string/chest"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:selectAllOnFocus="true"
-                        android:text="@{measurement.chest}" />
+                        android:text="@{measurement.chest}"
+                        bind:addTextChangedListener="@{measurement.chestTextWatcher}" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -162,10 +165,11 @@
                             android:layout_height="wrap_content"
                             android:clickable="false"
                             android:hint="@string/thigh_left"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:nextFocusDown="@+id/edit_thigh_right"
                             android:selectAllOnFocus="true"
-                            android:text="@{measurement.leftThigh}" />
+                            android:text="@{measurement.leftThigh}"
+                            bind:addTextChangedListener="@{measurement.leftThighTextWatcher}" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -179,10 +183,11 @@
                             android:layout_height="wrap_content"
                             android:clickable="false"
                             android:hint="@string/thigh_right"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:nextFocusDown="@+id/edit_calf_left"
                             android:selectAllOnFocus="true"
-                            android:text="@{measurement.rightThigh}" />
+                            android:text="@{measurement.rightThigh}"
+                            bind:addTextChangedListener="@{measurement.rightThighTextWatcher}" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -207,10 +212,11 @@
                             android:layout_weight="1"
                             android:clickable="false"
                             android:hint="@string/calf_left"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:nextFocusDown="@+id/edit_calf_right"
                             android:selectAllOnFocus="true"
-                            android:text="@{measurement.leftCalf}" />
+                            android:text="@{measurement.leftCalf}"
+                            bind:addTextChangedListener="@{measurement.leftCalfTextWatcher}" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -226,11 +232,11 @@
                             android:layout_weight="1"
                             android:clickable="false"
                             android:hint="@string/calf_right"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:nextFocusDown="@+id/edit_arm_left"
-
                             android:selectAllOnFocus="true"
-                            android:text="@{measurement.rightCalf}" />
+                            android:text="@{measurement.rightCalf}"
+                            bind:addTextChangedListener="@{measurement.rightCalfTextWatcher}" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -255,11 +261,12 @@
                             android:layout_weight="1"
                             android:clickable="false"
                             android:hint="@string/arm_left"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:nextFocusDown="@+id/edit_arm_right"
 
                             android:selectAllOnFocus="true"
-                            android:text="@{measurement.leftArm}" />
+                            android:text="@{measurement.leftArm}"
+                            bind:addTextChangedListener="@{measurement.leftArmTextWatcher}" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -275,11 +282,12 @@
                             android:layout_weight="1"
                             android:clickable="false"
                             android:hint="@string/arm_right"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:nextFocusDown="@+id/edit_forearm_left"
                             android:selectAllOnFocus="true"
 
-                            android:text="@{measurement.rightArm}" />
+                            android:text="@{measurement.rightArm}"
+                            bind:addTextChangedListener="@{measurement.rightArmTextWatcher}" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -304,10 +312,11 @@
                             android:layout_weight="1"
                             android:clickable="false"
                             android:hint="@string/left_forearm"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:nextFocusDown="@+id/edit_forearm_right"
                             android:selectAllOnFocus="true"
-                            android:text="@{measurement.leftForearm}" />
+                            android:text="@{measurement.leftForearm}"
+                            bind:addTextChangedListener="@{measurement.leftForearmTextWatcher}" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -323,9 +332,10 @@
                             android:layout_weight="1"
                             android:clickable="false"
                             android:hint="@string/right_forearm"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:selectAllOnFocus="true"
-                            android:text="@{measurement.rightForearm}" />
+                            android:text="@{measurement.rightForearm}"
+                            bind:addTextChangedListener="@{measurement.rightForearmTextWatcher}" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -341,9 +351,10 @@
                         android:layout_height="wrap_content"
                         android:clickable="false"
                         android:hint="@string/waist"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:selectAllOnFocus="true"
-                        android:text="@{measurement.waist}" />
+                        android:text="@{measurement.waist}"
+                        bind:addTextChangedListener="@{measurement.waistTextWatcher}" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -357,9 +368,10 @@
                         android:layout_height="wrap_content"
                         android:clickable="false"
                         android:hint="@string/neck"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:selectAllOnFocus="true"
-                        android:text="@{measurement.neck}" />
+                        android:text="@{measurement.neck}"
+                        bind:addTextChangedListener="@{measurement.neckTextWatcher}" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>

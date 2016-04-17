@@ -42,7 +42,24 @@ public class Measurement extends RealmObject {
     public Measurement() {
         this.id = UUID.randomUUID().toString();
         this.date = new Date();
+    }
 
+    public Measurement(Measurement measurement) {
+        id = measurement.getId();
+        date = measurement.getDate();
+        comment = measurement.getComment();
+        weight = measurement.getWeight();
+        chest = measurement.getChest();
+        leftCalf = measurement.getLeftCalf();
+        rightCalf = measurement.getRightCalf();
+        leftThigh = measurement.getLeftThigh();
+        rightThigh = measurement.getRightThigh();
+        leftArm = measurement.getLeftArm();
+        rightArm = measurement.getRightArm();
+        leftForearm = measurement.getLeftForearm();
+        rightForearm = measurement.getRightForearm();
+        waist = measurement.getWaist();
+        neck = measurement.getNeck();
     }
 
     public Measurement(Date date, String comment, double weight, double chest, double leftCalf,
@@ -184,5 +201,7 @@ public class Measurement extends RealmObject {
     public void setNeck(double neck) {
         this.neck = neck;
     }
+
+
 
 }

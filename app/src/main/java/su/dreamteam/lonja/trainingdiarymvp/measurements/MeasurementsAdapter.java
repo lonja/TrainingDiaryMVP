@@ -50,6 +50,8 @@ public class MeasurementsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MeasurementViewHolder measurementHolder = (MeasurementViewHolder) holder;
         measurementHolder.binding.setMeasurement(mMeasurements.get(position));
+        MeasurementsItemActionHandler itemActionHandler = new MeasurementsItemActionHandler(mUserActionListener);
+        measurementHolder.binding.setActionHandler(itemActionHandler);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package su.dreamteam.lonja.trainingdiarymvp.addeditmeasurement;
 
-import android.app.DatePickerDialog;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -8,6 +7,7 @@ import java.util.Date;
 
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
 import su.dreamteam.lonja.trainingdiarymvp.data.source.MeasurementsDataSource;
+import su.dreamteam.lonja.trainingdiarymvp.util.MeasurementUtils;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -112,8 +112,8 @@ public class AddEditMeasurementPresenter implements AddEditMeasurementContract.P
     }
 
     @Override
-    public void onMeasurementLoaded(Measurement measurements) {
-        mAddEditMeasurementView.setMeasurement(measurements);
+    public void onMeasurementLoaded(Measurement measurement) {
+        mAddEditMeasurementView.setMeasurement(MeasurementUtils.copyToNewMeasurement(measurement));
     }
 
     @Override

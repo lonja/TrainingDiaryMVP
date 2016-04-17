@@ -19,8 +19,6 @@ public class AddEditMeasurementActivity extends AppCompatActivity {
 
     public static final int REQUEST_EDIT_MEASUREMENT = 2;
 
-    private AddEditMeasurementPresenter mPresenter;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,14 +45,6 @@ public class AddEditMeasurementActivity extends AppCompatActivity {
             } else {
                 actionBar.setTitle(R.string.add_measurement);
             }
-
-            mPresenter = new AddEditMeasurementPresenter(
-                    MeasurementsRepository.getInstance(MeasurementsLocalDataSource.getInstance()),
-                    addEditMeasurementFragment,
-                    measurementId
-            );
-
-            addEditMeasurementFragment.setPresenter(mPresenter);
 
             MeasurementViewModel viewModel = new MeasurementViewModel(this);
 

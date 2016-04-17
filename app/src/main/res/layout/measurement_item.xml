@@ -7,7 +7,9 @@
             name="measurement"
             type="su.dreamteam.lonja.trainingdiarymvp.data.Measurement" />
 
-        
+        <variable
+            name="actionHandler"
+            type="su.dreamteam.lonja.trainingdiarymvp.measurements.MeasurementsItemActionHandler" />
 
         <import type="android.text.format.DateFormat" />
 
@@ -16,7 +18,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:onClick="@{() -> actionHandler.measurementClicked(measurement)}">
 
         <TextView
             android:layout_marginTop="16dp"

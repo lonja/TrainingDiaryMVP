@@ -19,6 +19,10 @@
 
         <activity android:name=".addeditmeasurement.AddEditMeasurementActivity" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="3e4cb978770358923c83aa7c08d7a23c07c93253" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

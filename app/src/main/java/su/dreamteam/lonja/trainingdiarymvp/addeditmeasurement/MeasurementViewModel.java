@@ -3,15 +3,13 @@ package su.dreamteam.lonja.trainingdiarymvp.addeditmeasurement;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
-import android.databinding.BindingAdapter;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
-import android.view.View;
-import android.widget.TextView;
 
 import java.util.Calendar;
 
 import su.dreamteam.lonja.trainingdiarymvp.BR;
-import su.dreamteam.lonja.trainingdiarymvp.R;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
 
 public class MeasurementViewModel extends BaseObservable {
@@ -40,13 +38,219 @@ public class MeasurementViewModel extends BaseObservable {
 
     private String neck;
 
+    private TextWatcher mWeightTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setWeight(s.toString());
+        }
+    };
+
+    private TextWatcher mChestTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setChest(s.toString());
+        }
+    };
+
+    private TextWatcher mLeftCalfTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setLeftCalf(s.toString());
+        }
+    };
+
+    private TextWatcher mRightCalfTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setRightCalf(s.toString());
+        }
+    };
+
+    private TextWatcher mLeftThighTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setLeftThigh(s.toString());
+        }
+    };
+
+    private TextWatcher mRightThighTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setRightThigh(s.toString());
+        }
+    };
+
+    private TextWatcher mLeftArmTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setLeftArm(s.toString());
+        }
+    };
+
+    private TextWatcher mRightArmTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setRightArm(s.toString());
+        }
+    };
+
+    private TextWatcher mLeftForearmTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setLeftForearm(s.toString());
+        }
+    };
+
+    private TextWatcher mRightForearmTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setRightForearm(s.toString());
+        }
+    };
+
+    private TextWatcher mWaistTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setWaist(s.toString());
+        }
+    };
+
+    private TextWatcher mNeckTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            setNeck(s.toString());
+        }
+    };
+
     public MeasurementViewModel(Context context) {
         mContext = context;
         mMeasurement = new Measurement();
+        setValues(mMeasurement);
     }
 
     public MeasurementViewModel(Measurement measurement) {
         mMeasurement = measurement;
+        setValues(mMeasurement);
     }
 
     @Bindable
@@ -64,12 +268,16 @@ public class MeasurementViewModel extends BaseObservable {
 
     @Bindable
     public String getComment() {
-        return mMeasurement.getComment();
+        if (mMeasurement.getComment() == null) {
+            return "Enter comment";
+        } else {
+            return mMeasurement.getComment();
+        }
     }
 
     public void setComment(String comment) {
         mMeasurement.setComment(comment);
-        notifyPropertyChanged(BR.date);
+        notifyPropertyChanged(BR.comment);
     }
 
     @Bindable
@@ -79,6 +287,9 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setWeight(String weight) {
         this.weight = weight;
+        if (weight.equals("")) {
+            return;
+        }
         mMeasurement.setWeight(Double.parseDouble(weight));
         notifyPropertyChanged(BR.weight);
     }
@@ -90,7 +301,10 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setChest(String chest) {
         this.chest = chest;
-        mMeasurement.setWeight(Double.parseDouble(chest));
+        if (chest.equals("")) {
+            return;
+        }
+        mMeasurement.setChest(Double.parseDouble(chest));
         notifyPropertyChanged(BR.chest);
     }
 
@@ -101,7 +315,10 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setLeftCalf(String leftCalf) {
         this.leftCalf = leftCalf;
-        mMeasurement.setWeight(Double.parseDouble(leftCalf));
+        if (leftCalf.equals("")) {
+            return;
+        }
+        mMeasurement.setLeftCalf(Double.parseDouble(leftCalf));
         notifyPropertyChanged(BR.leftCalf);
     }
 
@@ -112,7 +329,10 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setRightCalf(String rightCalf) {
         this.rightCalf = rightCalf;
-        mMeasurement.setWeight(Double.parseDouble(rightCalf));
+        if (rightCalf.equals("")) {
+            return;
+        }
+        mMeasurement.setRightCalf(Double.parseDouble(rightCalf));
         notifyPropertyChanged(BR.rightCalf);
     }
 
@@ -123,7 +343,10 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setLeftThigh(String leftThigh) {
         this.leftThigh = leftThigh;
-        mMeasurement.setWeight(Double.parseDouble(leftThigh));
+        if (leftThigh.equals("")) {
+            return;
+        }
+        mMeasurement.setLeftThigh(Double.parseDouble(leftThigh));
         notifyPropertyChanged(BR.leftThigh);
     }
 
@@ -134,7 +357,10 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setRightThigh(String rightThigh) {
         this.rightThigh = rightThigh;
-        mMeasurement.setWeight(Double.parseDouble(rightThigh));
+        if (rightThigh.equals("")) {
+            return;
+        }
+        mMeasurement.setRightThigh(Double.parseDouble(rightThigh));
         notifyPropertyChanged(BR.rightThigh);
     }
 
@@ -145,7 +371,10 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setLeftArm(String leftArm) {
         this.leftArm = leftArm;
-        mMeasurement.setWeight(Double.parseDouble(leftArm));
+        if (leftArm.equals("")) {
+            return;
+        }
+        mMeasurement.setLeftArm(Double.parseDouble(leftArm));
         notifyPropertyChanged(BR.leftArm);
     }
 
@@ -156,7 +385,10 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setRightArm(String rightArm) {
         this.rightArm = rightArm;
-        mMeasurement.setWeight(Double.parseDouble(rightArm));
+        if (rightForearm.equals("")) {
+            return;
+        }
+        mMeasurement.setRightArm(Double.parseDouble(rightArm));
         notifyPropertyChanged(BR.rightArm);
     }
 
@@ -167,7 +399,10 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setLeftForearm(String leftForearm) {
         this.leftForearm = leftForearm;
-        mMeasurement.setWeight(Double.parseDouble(leftForearm));
+        if (leftForearm.equals("")) {
+            return;
+        }
+        mMeasurement.setLeftForearm(Double.parseDouble(leftForearm));
         notifyPropertyChanged(BR.leftForearm);
     }
 
@@ -179,7 +414,10 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setRightForearm(String rightForearm) {
         this.rightForearm = rightForearm;
-        mMeasurement.setWeight(Double.parseDouble(rightForearm));
+        if (rightForearm.equals("")) {
+            return;
+        }
+        mMeasurement.setRightForearm(Double.parseDouble(rightForearm));
         notifyPropertyChanged(BR.rightForearm);
     }
 
@@ -190,7 +428,10 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setWaist(String waist) {
         this.waist = waist;
-        mMeasurement.setWeight(Double.parseDouble(waist));
+        if (waist.equals("")) {
+            return;
+        }
+        mMeasurement.setWaist(Double.parseDouble(waist));
         notifyPropertyChanged(BR.waist);
     }
 
@@ -201,17 +442,91 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setNeck(String neck) {
         this.neck = neck;
-        mMeasurement.setWeight(Double.parseDouble(neck));
+        if (neck.equals("")) {
+            return;
+        }
+        mMeasurement.setNeck(Double.parseDouble(neck));
         notifyPropertyChanged(BR.neck);
     }
 
-//    @BindingAdapter("android:text")
-//    public static void setCommentText(final TextView view, MeasurementViewModel viewModel) {
-//        view.setText(viewModel.getComment() != null ? viewModel.getComment() : R.string.comment_empty);
-//    }
+    public TextWatcher getWeightTextWatcher() {
+        return mWeightTextWatcher;
+    }
+
+    public TextWatcher getChestTextWatcher() {
+        return mChestTextWatcher;
+    }
+
+    public TextWatcher getLeftCalfTextWatcher() {
+        return mLeftCalfTextWatcher;
+    }
+
+    public TextWatcher getRightCalfTextWatcher() {
+        return mRightCalfTextWatcher;
+    }
+
+    public TextWatcher getLeftThighTextWatcher() {
+        return mLeftThighTextWatcher;
+    }
+
+    public TextWatcher getRightThighTextWatcher() {
+        return mRightThighTextWatcher;
+    }
+
+    public TextWatcher getLeftArmTextWatcher() {
+        return mLeftArmTextWatcher;
+    }
+
+    public TextWatcher getRightArmTextWatcher() {
+        return mRightArmTextWatcher;
+    }
+
+    public TextWatcher getLeftForearmTextWatcher() {
+        return mLeftForearmTextWatcher;
+    }
+
+    public TextWatcher getRightForearmTextWatcher() {
+        return mRightForearmTextWatcher;
+    }
+
+    public TextWatcher getWaistTextWatcher() {
+        return mWaistTextWatcher;
+    }
+
+    public TextWatcher getNeckTextWatcher() {
+        return mNeckTextWatcher;
+    }
+
+    private void setValues(Measurement measurement) {
+        weight = Double.toString(measurement.getWeight());
+        notifyPropertyChanged(BR.weight);
+        chest = Double.toString(measurement.getChest());
+        notifyPropertyChanged(BR.chest);
+        leftCalf = Double.toString(measurement.getLeftCalf());
+        notifyPropertyChanged(BR.leftCalf);
+        rightCalf = Double.toString(measurement.getRightCalf());
+        notifyPropertyChanged(BR.rightCalf);
+        leftThigh = Double.toString(measurement.getLeftThigh());
+        notifyPropertyChanged(BR.leftThigh);
+        rightThigh = Double.toString(measurement.getRightThigh());
+        notifyPropertyChanged(BR.rightThigh);
+        leftArm = Double.toString(measurement.getLeftArm());
+        notifyPropertyChanged(BR.leftArm);
+        rightArm = Double.toString(measurement.getRightCalf());
+        notifyPropertyChanged(BR.rightArm);
+        leftForearm = Double.toString(measurement.getLeftForearm());
+        notifyPropertyChanged(BR.leftForearm);
+        rightForearm = Double.toString(measurement.getRightForearm());
+        notifyPropertyChanged(BR.rightForearm);
+        waist = Double.toString(measurement.getWaist());
+        notifyPropertyChanged(BR.waist);
+        neck = Double.toString(measurement.getNeck());
+        notifyPropertyChanged(BR.neck);
+    }
 
     public void setMeasurement(Measurement measurement) {
         mMeasurement = measurement;
+        setValues(measurement);
     }
 
     public Measurement getMeasurement() {

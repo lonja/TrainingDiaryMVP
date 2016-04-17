@@ -71,6 +71,32 @@ public class MeasurementsLocalDataSource implements MeasurementsDataSource {
         }
     }
 
+    @Override
+    public void updateMeasurement(@NonNull Measurement measurement) {
+        try {
+            realm.beginTransaction();
+            Measurement realmMeasurement = realm.where(Measurement.class)
+                    .equalTo("id", measurement.getId())
+                    .findFirst();
+            realmMeasurement.setDate(measurement.getDate());
+            realmMeasurement.setComment(measurement.getComment());
+            realmMeasurement.setChest(measurement.getChest());
+            realmMeasurement.setLeftArm(measurement.getLeftArm());
+            realmMeasurement.setLeftForearm(measurement.getLeftForearm());
+            realmMeasurement.setLeftThigh(measurement.getLeftThigh());
+            realmMeasurement.setLeftCalf(measurement.getLeftCalf());
+            realmMeasurement.setNeck(measurement.getNeck());
+            realmMeasurement.setRightArm(measurement.getRightArm());
+            realmMeasurement.setRightCalf(measurement.getRightCalf());
+            realmMeasurement.setRightForearm(measurement.getRightForearm());
+            realmMeasurement.setRightThigh(measurement.getRightThigh());
+            realmMeasurement.setWaist(measurement.getWaist());
+            realmMeasurement.setWeight(measurement.getWeight());
+            realm.commitTransaction();
+        } catch (Exception e) {
+            realm.cancelTransaction();
+        }
+    }
 
     @Override
     public void refreshMeasurements() {
