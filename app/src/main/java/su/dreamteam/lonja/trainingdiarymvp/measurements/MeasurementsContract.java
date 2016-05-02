@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import su.dreamteam.lonja.trainingdiarymvp.BasePresenter;
-import su.dreamteam.lonja.trainingdiarymvp.BaseView;
+import su.dreamteam.lonja.trainingdiarymvp.base.BasePresenter;
+import su.dreamteam.lonja.trainingdiarymvp.base.BaseView;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
 
 public interface MeasurementsContract {

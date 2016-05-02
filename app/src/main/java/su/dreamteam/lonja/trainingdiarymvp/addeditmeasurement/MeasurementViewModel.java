@@ -255,7 +255,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     @Bindable
     public String getDate() {
-        return mMeasurement.getDate() == null ? "хуй" : DateFormat.format(
+        return mMeasurement.getDate() == null ? "" : DateFormat.format(
                 "dd MMMM yyyy, HH:mm",
                 mMeasurement.getDate()
         ).toString();

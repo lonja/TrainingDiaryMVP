@@ -1,4 +1,4 @@
-package su.dreamteam.lonja.trainingdiarymvp;
+package su.dreamteam.lonja.trainingdiarymvp.base;
 
 public interface BaseView<T> {
 

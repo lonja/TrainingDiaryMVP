@@ -17,8 +17,6 @@ import su.dreamteam.lonja.trainingdiarymvp.util.ActivityUtils;
 
 public class MeasurementsActivity extends AppCompatActivity {
 
-    private MeasurementsPresenter mPresenter;
-
     private DrawerLayout mDrawerLayout;
 
     @Override
@@ -48,7 +46,7 @@ public class MeasurementsActivity extends AppCompatActivity {
             );
         }
 
-        mPresenter = new MeasurementsPresenter(
+        MeasurementsPresenter mPresenter = new MeasurementsPresenter(
                 MeasurementsRepository.getInstance(MeasurementsLocalDataSource.getInstance()),
                 measurementsFragment
         );

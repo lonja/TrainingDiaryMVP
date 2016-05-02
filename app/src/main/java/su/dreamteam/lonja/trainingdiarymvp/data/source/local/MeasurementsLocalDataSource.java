@@ -65,6 +65,7 @@ public class MeasurementsLocalDataSource implements MeasurementsDataSource {
             realmMeasurement.setRightThigh(measurement.getRightThigh());
             realmMeasurement.setWaist(measurement.getWaist());
             realmMeasurement.setWeight(measurement.getWeight());
+            realmMeasurement.setAaa(measurement.getAaa());
             realm.commitTransaction();
         } catch (Exception e) {
             realm.cancelTransaction();
@@ -92,6 +93,7 @@ public class MeasurementsLocalDataSource implements MeasurementsDataSource {
             realmMeasurement.setRightThigh(measurement.getRightThigh());
             realmMeasurement.setWaist(measurement.getWaist());
             realmMeasurement.setWeight(measurement.getWeight());
+            realmMeasurement.setAaa(measurement.getAaa());
             realm.commitTransaction();
         } catch (Exception e) {
             realm.cancelTransaction();

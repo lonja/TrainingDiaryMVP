@@ -6,8 +6,10 @@ import java.util.UUID;
 import io.realm.RealmObject;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
+@RealmClass
 public class Measurement extends RealmObject {
 
     @PrimaryKey
@@ -201,7 +203,4 @@ public class Measurement extends RealmObject {
     public void setNeck(double neck) {
         this.neck = neck;
     }
-
-
-
 }
