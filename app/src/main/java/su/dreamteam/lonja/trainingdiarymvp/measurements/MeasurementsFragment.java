@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,7 +44,7 @@ public class MeasurementsFragment extends Fragment implements MeasurementsContra
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        mPresenter.subscribe();
     }
 
     @Override
@@ -60,7 +61,7 @@ public class MeasurementsFragment extends Fragment implements MeasurementsContra
 
         measurementsBinding.setActionHandler(mPresenter);
 
-        mListAdapter = new MeasurementsAdapter(new ArrayList<Measurement>(0), mPresenter);
+        mListAdapter = new MeasurementsAdapter(new ArrayList<>(0), mPresenter);
 
         measurementsBinding.measurementsList.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -68,12 +69,7 @@ public class MeasurementsFragment extends Fragment implements MeasurementsContra
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_add_measurement);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.addNewMeasurement();
-            }
-        });
+        fab.setOnClickListener(v -> mPresenter.addNewMeasurement());
 //        measurementsBinding.refreshLayout.setColorSchemeColors()
 
 //        swipeRefreshLayout.setScrollUpChild(swipeRefreshLayout.listView);
@@ -81,6 +77,12 @@ public class MeasurementsFragment extends Fragment implements MeasurementsContra
         setHasOptionsMenu(true);
 
         return measurementsBinding.getRoot();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.unsubscribe();
     }
 
     @Override
@@ -111,6 +113,7 @@ public class MeasurementsFragment extends Fragment implements MeasurementsContra
 
     @Override
     public void showMeasurements(List<Measurement> measurements) {
+        Log.e("MY", measurements.toString());
         mListAdapter.replaceData(measurements);
         mMeasurementsViewModel.setMeasurementsListSize(measurements.size());
     }

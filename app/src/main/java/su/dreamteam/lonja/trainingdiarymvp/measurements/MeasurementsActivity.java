@@ -11,13 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import su.dreamteam.lonja.trainingdiarymvp.R;
-import su.dreamteam.lonja.trainingdiarymvp.data.source.MeasurementsRepository;
+import su.dreamteam.lonja.trainingdiarymvp.data.source.DataManager;
 import su.dreamteam.lonja.trainingdiarymvp.data.source.local.MeasurementsLocalDataSource;
 import su.dreamteam.lonja.trainingdiarymvp.util.ActivityUtils;
 
 public class MeasurementsActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
+
+    private MeasurementsPresenter mMeasurementsPresenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,7 +32,7 @@ public class MeasurementsActivity extends AppCompatActivity {
         actionBar.setHomeAsUpIndicator(R.drawable.menu);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mDrawerLayout  = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         if (navigationView != null) {
@@ -46,8 +48,8 @@ public class MeasurementsActivity extends AppCompatActivity {
             );
         }
 
-        MeasurementsPresenter mPresenter = new MeasurementsPresenter(
-                MeasurementsRepository.getInstance(MeasurementsLocalDataSource.getInstance()),
+        mMeasurementsPresenter = new MeasurementsPresenter(
+                DataManager.getInstance(MeasurementsLocalDataSource.getInstance()),
                 measurementsFragment
         );
 
@@ -69,11 +71,6 @@ public class MeasurementsActivity extends AppCompatActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                return false;
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(item -> false);
     }
 }

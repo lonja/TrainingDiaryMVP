@@ -21,25 +21,25 @@ public class Measurement extends RealmObject {
 
     private String comment;
 
-    private double weight;
+    private Double weight;
 
-    private double chest;
+    private Double chest;
 
-    private double leftCalf;
-    private double rightCalf;
+    private Double leftCalf;
+    private Double rightCalf;
 
-    private double leftThigh;
-    private double rightThigh;
+    private Double leftThigh;
+    private Double rightThigh;
 
-    private double leftArm;
-    private double rightArm;
+    private Double leftArm;
+    private Double rightArm;
 
-    private double leftForearm;
-    private double rightForearm;
+    private Double leftForearm;
+    private Double rightForearm;
 
-    private double waist;
+    private Double waist;
 
-    private double neck;
+    private Double neck;
 
     public Measurement() {
         this.id = UUID.randomUUID().toString();
@@ -64,9 +64,10 @@ public class Measurement extends RealmObject {
         neck = measurement.getNeck();
     }
 
-    public Measurement(Date date, String comment, double weight, double chest, double leftCalf,
-                       double rightCalf, double leftThigh, double rightThigh, double leftArm,
-                       double rightArm, double leftForearm, double rightForearm, double waist, double neck) {
+    public Measurement(Date date, String comment, Double weight, Double chest, Double leftCalf,
+                       Double rightCalf, Double leftThigh, Double rightThigh, Double leftArm,
+                       Double rightArm, Double leftForearm, Double rightForearm, Double waist,
+                       Double neck) {
         this();
         this.date = date;
         this.comment = comment;
@@ -84,16 +85,16 @@ public class Measurement extends RealmObject {
         this.neck = neck;
     }
 
-    public String  getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(String  id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     public Date getDate() {
-        return date;
+        return (isLoaded()) ? date : new Date();
     }
 
     public void setDate(Date date) {
@@ -101,106 +102,112 @@ public class Measurement extends RealmObject {
     }
 
     public String getComment() {
-        return comment;
+        return (isLoaded()) ? comment : null;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
     }
 
-    public double getWeight() {
-        return weight;
+    public Double getWeight() {
+        return (isLoaded()) ? weight : null;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
-    public double getChest() {
-        return chest;
+    public Double getChest() {
+        return (isLoaded()) ? chest : null;
     }
 
-    public void setChest(double chest) {
+    public void setChest(Double chest) {
         this.chest = chest;
     }
 
-    public double getLeftCalf() {
-        return leftCalf;
+    public Double getLeftCalf() {
+        return (isLoaded()) ? leftCalf : null;
     }
 
-    public void setLeftCalf(double lftCalf) {
+    public void setLeftCalf(Double lftCalf) {
         this.leftCalf = lftCalf;
     }
 
-    public double getRightCalf() {
-        return rightCalf;
+    public Double getRightCalf() {
+        return (isLoaded()) ? rightCalf : null;
     }
 
-    public void setRightCalf(double rightCalf) {
+    public void setRightCalf(Double rightCalf) {
         this.rightCalf = rightCalf;
     }
 
-    public double getLeftThigh() {
-        return leftThigh;
+    public Double getLeftThigh() {
+        return (isLoaded()) ? leftThigh : null;
     }
 
-    public void setLeftThigh(double leftThigh) {
+    public void setLeftThigh(Double leftThigh) {
         this.leftThigh = leftThigh;
     }
 
-    public double getRightThigh() {
-        return rightThigh;
+    public Double getRightThigh() {
+        return (isLoaded()) ? rightThigh : null;
     }
 
-    public void setRightThigh(double rightThigh) {
+    public void setRightThigh(Double rightThigh) {
         this.rightThigh = rightThigh;
     }
 
-    public double getLeftArm() {
-        return leftArm;
+    public Double getLeftArm() {
+        return (isLoaded()) ? leftArm : null;
     }
 
-    public void setLeftArm(double leftArm) {
+    public void setLeftArm(Double leftArm) {
         this.leftArm = leftArm;
     }
 
-    public double getRightArm() {
-        return rightArm;
+    public Double getRightArm() {
+        return (isLoaded()) ? rightArm : null;
     }
 
-    public void setRightArm(double rightArm) {
+    public void setRightArm(Double rightArm) {
         this.rightArm = rightArm;
     }
 
-    public double getLeftForearm() {
-        return leftForearm;
+    public Double getLeftForearm() {
+        return (isLoaded()) ? leftForearm : null;
     }
 
-    public void setLeftForearm(double leftForearm) {
+    public void setLeftForearm(Double leftForearm) {
         this.leftForearm = leftForearm;
     }
 
-    public double getRightForearm() {
-        return rightForearm;
+    public Double getRightForearm() {
+        return (isLoaded()) ? rightForearm : null;
     }
 
-    public void setRightForearm(double rightForearm) {
+    public void setRightForearm(Double rightForearm) {
         this.rightForearm = rightForearm;
     }
 
-    public double getWaist() {
-        return waist;
+    public Double getWaist() {
+        return (isLoaded()) ? waist : null;
     }
 
-    public void setWaist(double waist) {
+    public void setWaist(Double waist) {
         this.waist = waist;
     }
 
-    public double getNeck() {
-        return neck;
+    public Double getNeck() {
+        return (isLoaded()) ? neck : null;
     }
 
-    public void setNeck(double neck) {
+    public void setNeck(Double neck) {
         this.neck = neck;
+    }
+
+    public boolean isEmpty() {
+        return weight == null && chest == null && leftCalf == null && rightCalf == null &&
+                leftThigh == null && rightThigh == null && leftArm == null && rightArm == null &&
+                leftForearm == null && rightForearm == null && waist == null && neck == null;
     }
 }

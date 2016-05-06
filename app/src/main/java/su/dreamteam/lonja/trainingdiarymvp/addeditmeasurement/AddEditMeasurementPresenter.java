@@ -5,17 +5,17 @@ import android.support.annotation.Nullable;
 
 import java.util.Date;
 
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
-import su.dreamteam.lonja.trainingdiarymvp.data.source.MeasurementsDataSource;
-import su.dreamteam.lonja.trainingdiarymvp.util.MeasurementUtils;
+import su.dreamteam.lonja.trainingdiarymvp.data.source.DataManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-public class AddEditMeasurementPresenter implements AddEditMeasurementContract.Presenter,
-        MeasurementsDataSource.GetMeasurementCallback {
+public class AddEditMeasurementPresenter implements AddEditMeasurementContract.Presenter {
 
     @NonNull
-    private final MeasurementsDataSource mMeasurementsRepository;
+    private final DataManager mDataManager;
 
     @NonNull
     private final AddEditMeasurementContract.View mAddEditMeasurementView;
@@ -23,13 +23,16 @@ public class AddEditMeasurementPresenter implements AddEditMeasurementContract.P
     @Nullable
     private String mMeasurementId;
 
+    private CompositeSubscription mSubscriptions;
+
     public AddEditMeasurementPresenter(
-            @NonNull MeasurementsDataSource measurementsRepository,
+            @NonNull DataManager dataManager,
             @NonNull AddEditMeasurementContract.View addEditMeasurementView,
             @Nullable String measurementId) {
-        mMeasurementsRepository = checkNotNull(measurementsRepository);
+        mDataManager = checkNotNull(dataManager);
         mAddEditMeasurementView = checkNotNull(addEditMeasurementView);
         mMeasurementId = measurementId;
+        mSubscriptions = new CompositeSubscription();
         mAddEditMeasurementView.setPresenter(this);
     }
 
@@ -49,12 +52,19 @@ public class AddEditMeasurementPresenter implements AddEditMeasurementContract.P
             double rightForearm,
             double waist,
             double neck) {
-
+        Measurement measurement = new Measurement(date, comment, weight, chest, leftCalf, rightCalf,
+                leftThigh, rightThigh, leftArm, rightArm, leftForearm, rightForearm, waist, neck);
+        if (measurement.isEmpty()) {
+            mAddEditMeasurementView.showEmptyMeasurementError();
+        } else {
+            mDataManager.saveMeasurement(measurement);
+            mAddEditMeasurementView.showMeasurementsList();
+        }
     }
 
     @Override
     public void createMeasurement(Measurement measurement) {
-        mMeasurementsRepository.saveMeasurement(measurement);
+        mDataManager.saveMeasurement(measurement);
         mAddEditMeasurementView.showMeasurementsList();
     }
 
@@ -79,10 +89,7 @@ public class AddEditMeasurementPresenter implements AddEditMeasurementContract.P
 
     @Override
     public void updateMeasurement(Measurement measurement) {
-        if (mMeasurementId == null) {
-            throw new RuntimeException("updateTask() was called but task is new.");
-        }
-        mMeasurementsRepository.saveMeasurement(measurement);
+        mDataManager.commitMeasurementChanges();
         mAddEditMeasurementView.showMeasurementsList();
     }
 
@@ -101,23 +108,34 @@ public class AddEditMeasurementPresenter implements AddEditMeasurementContract.P
         if (mMeasurementId == null) {
             throw new RuntimeException("populateMeasurement() was called but task is new.");
         }
-        mMeasurementsRepository.getMeasurement(mMeasurementId, this);
+        mSubscriptions.clear();
+        Subscription subscription = mDataManager.getMeasurement(mMeasurementId)
+                .filter(measurement -> measurement.isValid())
+                .doOnNext(measurement -> {
+                    mAddEditMeasurementView.setMeasurement(measurement);
+                    mDataManager.updateMeasurement();
+                })
+                .doOnError(throwable -> mAddEditMeasurementView.showEmptyMeasurementError())
+                .subscribe();
+        mSubscriptions.add(subscription);
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         if (mMeasurementId != null) {
             populateMeasurement();
         }
     }
 
-    @Override
-    public void onMeasurementLoaded(Measurement measurement) {
-        mAddEditMeasurementView.setMeasurement(MeasurementUtils.copyToNewMeasurement(measurement));
+    private boolean isNewMeasurement() {
+        return mMeasurementId == null;
     }
 
     @Override
-    public void onDataNotAvailable() {
-        mAddEditMeasurementView.showEmptyMeasurementError();
+    public void unsubscribe() {
+        if (mDataManager.hasActiveTransaction()) {
+            mDataManager.cancelMeasurementChanges();
+        }
+        mSubscriptions.clear();
     }
 }

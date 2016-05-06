@@ -2,8 +2,13 @@ package su.dreamteam.lonja.trainingdiarymvp.data.source.local;
 
 import android.support.annotation.NonNull;
 
+import java.util.List;
+
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
+import io.realm.RealmModel;
 import io.realm.RealmResults;
+import rx.Observable;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
 import su.dreamteam.lonja.trainingdiarymvp.data.source.MeasurementsDataSource;
 
@@ -24,25 +29,19 @@ public class MeasurementsLocalDataSource implements MeasurementsDataSource {
         return INSTANCE;
     }
 
-
     @Override
-    public void getMeasurements(@NonNull GetMeasurementsCallback callback) {
-        try {
-            RealmResults<Measurement> measurements = realm.where(Measurement.class).findAll();
-            callback.onMeasurementsLoaded(measurements);
-        } catch (Exception e) {
-            callback.onDataNotAvailable();
-        }
+    public Observable<RealmResults<Measurement>> getMeasurements() {
+        return realm.where(Measurement.class)
+                .findAllAsync()
+                .asObservable();
     }
 
     @Override
-    public void getMeasurement(@NonNull String measurementId, @NonNull GetMeasurementCallback callback) {
-        try {
-            Measurement measurement = realm.where(Measurement.class).equalTo("id", measurementId).findFirst();
-            callback.onMeasurementLoaded(measurement);
-        } catch (Exception e) {
-            callback.onDataNotAvailable();
-        }
+    public Observable<Measurement> getMeasurement(@NonNull String measurementId) {
+        return realm.where(Measurement.class)
+                .equalTo("id", measurementId)
+                .findFirstAsync()
+                .<Measurement>asObservable();
     }
 
     @Override
@@ -65,7 +64,6 @@ public class MeasurementsLocalDataSource implements MeasurementsDataSource {
             realmMeasurement.setRightThigh(measurement.getRightThigh());
             realmMeasurement.setWaist(measurement.getWaist());
             realmMeasurement.setWeight(measurement.getWeight());
-            realmMeasurement.setAaa(measurement.getAaa());
             realm.commitTransaction();
         } catch (Exception e) {
             realm.cancelTransaction();
@@ -93,7 +91,6 @@ public class MeasurementsLocalDataSource implements MeasurementsDataSource {
             realmMeasurement.setRightThigh(measurement.getRightThigh());
             realmMeasurement.setWaist(measurement.getWaist());
             realmMeasurement.setWeight(measurement.getWeight());
-            realmMeasurement.setAaa(measurement.getAaa());
             realm.commitTransaction();
         } catch (Exception e) {
             realm.cancelTransaction();
@@ -109,7 +106,9 @@ public class MeasurementsLocalDataSource implements MeasurementsDataSource {
     public void deleteAllMeasurements() {
         try {
             realm.beginTransaction();
-            realm.where(Measurement.class).findAll().clear();
+            realm.where(Measurement.class)
+                    .findAllAsync()
+                    .deleteAllFromRealm();
             realm.commitTransaction();
         } catch (Exception e) {
             realm.cancelTransaction();
@@ -122,11 +121,27 @@ public class MeasurementsLocalDataSource implements MeasurementsDataSource {
             realm.beginTransaction();
             realm.where(Measurement.class)
                     .equalTo("id", measurementId)
-                    .findFirst()
-                    .removeFromRealm();
+                    .findFirstAsync()
+                    .deleteFromRealm();
             realm.commitTransaction();
         } catch (Exception e) {
             realm.cancelTransaction();
         }
+    }
+
+    public void commit() {
+        realm.commitTransaction();
+    }
+
+    public void cancel() {
+        realm.cancelTransaction();
+    }
+
+    public void update() {
+        realm.beginTransaction();
+    }
+
+    public boolean isInTransaction() {
+        return realm.isInTransaction();
     }
 }

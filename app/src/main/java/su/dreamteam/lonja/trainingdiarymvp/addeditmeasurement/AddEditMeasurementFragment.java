@@ -7,8 +7,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +57,7 @@ public class AddEditMeasurementFragment
         mAddEditMeasurementBinding = FragmentAddEditMeasurementBinding
                 .inflate(inflater, container, false);
         mAddEditMeasurementBinding.setActionHandler(mPresenter);
-        mAddEditMeasurementBinding.setMeasurement(mMeasurementViewModel);
+        mAddEditMeasurementBinding.setMeasurementViewModel(mMeasurementViewModel);
         setHasOptionsMenu(true);
         setRetainInstance(true);
         return mAddEditMeasurementBinding.getRoot();
@@ -66,14 +68,11 @@ public class AddEditMeasurementFragment
         super.onActivityCreated(savedInstanceState);
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab_edit_measurement_done);
         fab.setImageResource(R.drawable.check);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isNewMeasurement()) {
-                    mPresenter.createMeasurement(mAddEditMeasurementBinding.getMeasurement().getMeasurement());
-                } else {
-                    mPresenter.updateMeasurement(mAddEditMeasurementBinding.getMeasurement().getMeasurement());
-                }
+        fab.setOnClickListener(v -> {
+            if (isNewMeasurement()) {
+                mPresenter.createMeasurement(mAddEditMeasurementBinding.getMeasurementViewModel().getMeasurement());
+            } else {
+                mPresenter.updateMeasurement(mAddEditMeasurementBinding.getMeasurementViewModel().getMeasurement());
             }
         });
 
@@ -82,7 +81,13 @@ public class AddEditMeasurementFragment
     @Override
     public void onResume() {
         super.onResume();
-        mPresenter.start();
+        mPresenter.subscribe();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.unsubscribe();
     }
 
     public static AddEditMeasurementFragment newInstance() {
@@ -91,7 +96,7 @@ public class AddEditMeasurementFragment
 
     @Override
     public void showEmptyMeasurementError() {
-
+        Snackbar.make(getView(), "Ты походу тупой", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -143,25 +148,19 @@ public class AddEditMeasurementFragment
         builder.setTitle(R.string.comment)
                 .setView(dialogView)
                 .setCancelable(true)
-                .setPositiveButton(R.string.add, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mMeasurementViewModel.setComment(commentEditText.getText().toString());
-                    }
+                .setPositiveButton(R.string.add, (dialog, which) -> {
+                    mMeasurementViewModel.setComment(commentEditText.getText().toString());
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
+                .setNegativeButton(R.string.cancel, (dialog, which) -> {
+                    dialog.dismiss();
                 })
                 .show();
     }
 
     @Override
     public void setMeasurement(Measurement measurement) {
+        Log.e("MY", measurement.toString());
         mMeasurementViewModel.setMeasurement(measurement);
-//        mMeasurementViewModel.setValues();
         calendar.setTime(mMeasurementViewModel.getMeasurement().getDate());
         mYear = calendar.get(Calendar.YEAR);
         mMonth = calendar.get(Calendar.MONTH);

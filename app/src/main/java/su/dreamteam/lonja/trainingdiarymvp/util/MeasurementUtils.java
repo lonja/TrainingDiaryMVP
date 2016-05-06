@@ -22,7 +22,6 @@ public class MeasurementUtils {
         result.setRightForearm(measurement.getRightForearm());
         result.setWaist(measurement.getWaist());
         result.setNeck(measurement.getNeck());
-        result.setAaa(measurement.getAaa());
         return result;
     }
 

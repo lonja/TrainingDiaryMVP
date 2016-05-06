@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import su.dreamteam.lonja.trainingdiarymvp.R;
-import su.dreamteam.lonja.trainingdiarymvp.data.source.MeasurementsRepository;
+import su.dreamteam.lonja.trainingdiarymvp.data.source.DataManager;
 import su.dreamteam.lonja.trainingdiarymvp.data.source.local.MeasurementsLocalDataSource;
 import su.dreamteam.lonja.trainingdiarymvp.util.ActivityUtils;
 
@@ -55,7 +55,7 @@ public class AddEditMeasurementActivity extends AppCompatActivity {
         }
 
         new AddEditMeasurementPresenter(
-                MeasurementsRepository.getInstance(MeasurementsLocalDataSource.getInstance()),
+                DataManager.getInstance(MeasurementsLocalDataSource.getInstance()),
                 addEditMeasurementFragment,
                 measurementId
         );

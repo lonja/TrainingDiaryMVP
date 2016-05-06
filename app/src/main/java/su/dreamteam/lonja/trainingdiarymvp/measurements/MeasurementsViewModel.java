@@ -5,6 +5,7 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.drawable.Drawable;
 
+import su.dreamteam.lonja.trainingdiarymvp.BR;
 import su.dreamteam.lonja.trainingdiarymvp.R;
 
 public class MeasurementsViewModel extends BaseObservable {
@@ -22,7 +23,6 @@ public class MeasurementsViewModel extends BaseObservable {
         return mContext.getString(R.string.no_measurements);
     }
 
-
     @Bindable
     public Drawable getNoMeasurementsIconRes() {
         return mContext.getDrawable(R.drawable.ruler);
@@ -35,6 +35,6 @@ public class MeasurementsViewModel extends BaseObservable {
 
     public void setMeasurementsListSize(int measurementsListSize) {
         mMeasurementsSize = measurementsListSize;
+        notifyPropertyChanged(BR.notEmpty);
     }
-
 }

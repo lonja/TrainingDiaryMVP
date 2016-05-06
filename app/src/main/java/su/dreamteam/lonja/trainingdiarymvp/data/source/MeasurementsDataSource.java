@@ -4,29 +4,15 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
+import io.realm.RealmResults;
+import rx.Observable;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
 
 public interface MeasurementsDataSource {
 
-    interface GetMeasurementsCallback {
+    Observable<RealmResults<Measurement>> getMeasurements();
 
-        void onMeasurementsLoaded(List<Measurement> measurements);
-
-        void onDataNotAvailable();
-
-    }
-
-    interface GetMeasurementCallback {
-
-        void onMeasurementLoaded(Measurement measurements);
-
-        void onDataNotAvailable();
-
-    }
-
-    void getMeasurements(@NonNull GetMeasurementsCallback callback);
-
-    void getMeasurement(@NonNull String measurementId, @NonNull GetMeasurementCallback callback);
+    Observable<Measurement> getMeasurement(@NonNull String measurementId);
 
     void saveMeasurement(@NonNull Measurement measurement);
 
@@ -37,5 +23,11 @@ public interface MeasurementsDataSource {
     void deleteAllMeasurements();
 
     void deleteMeasurement(@NonNull String measurementId);
+
+    void update();
+
+    void commit();
+
+    void cancel();
 
 }

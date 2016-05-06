@@ -2,28 +2,37 @@ package su.dreamteam.lonja.trainingdiarymvp.measurements;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.List;
 
+import io.realm.RealmResults;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 import su.dreamteam.lonja.trainingdiarymvp.addeditmeasurement.AddEditMeasurementActivity;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
-import su.dreamteam.lonja.trainingdiarymvp.data.source.MeasurementsDataSource;
-import su.dreamteam.lonja.trainingdiarymvp.data.source.MeasurementsRepository;
+import su.dreamteam.lonja.trainingdiarymvp.data.source.DataManager;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MeasurementsPresenter implements MeasurementsContract.Presenter {
 
-    private final MeasurementsRepository mMeasurementsRepository;
+    private final DataManager mDataManager;
 
     private final MeasurementsContract.View mMeasurementsView;
 
     private boolean mFirstLoad = true;
 
-    public MeasurementsPresenter(MeasurementsRepository measurementsRepository, MeasurementsContract.View measurementsView) {
-        mMeasurementsRepository = measurementsRepository;
-        mMeasurementsView = measurementsView;
+    private CompositeSubscription mSubscriptions;
 
+    public MeasurementsPresenter(DataManager dataManager, MeasurementsContract.View measurementsView) {
+        mDataManager = dataManager;
+        mMeasurementsView = measurementsView;
+        mSubscriptions = new CompositeSubscription();
         mMeasurementsView.setPresenter(this);
     }
 
@@ -45,28 +54,14 @@ public class MeasurementsPresenter implements MeasurementsContract.Presenter {
             mMeasurementsView.setLoadingIndicator(true);
         }
         if (forceUpdate) {
-            mMeasurementsRepository.refreshMeasurements();
+//            mDataManager.refreshMeasurements();
         }
-        mMeasurementsRepository.getMeasurements(new MeasurementsDataSource.GetMeasurementsCallback() {
-            @Override
-            public void onMeasurementsLoaded(List<Measurement> measurements) {
-                if (!mMeasurementsView.isActive()) {
-                    return;
-                }
-                if (showLoadingUI) {
-                    mMeasurementsView.setLoadingIndicator(false);
-                }
-                mMeasurementsView.showMeasurements(measurements);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                if (!mMeasurementsView.isActive()) {
-                    return;
-                }
-                mMeasurementsView.showLoadingMeasurementsError();
-            }
-        });
+        mSubscriptions.clear();
+        Subscription subscription = mDataManager.getMeasurements()
+                .filter(measurements -> measurements != null)
+                .doOnNext(mMeasurementsView::showMeasurements)
+                .subscribe();
+        mSubscriptions.add(subscription);
     }
 
     @Override
@@ -81,7 +76,12 @@ public class MeasurementsPresenter implements MeasurementsContract.Presenter {
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         loadMeasurements(false);
+    }
+
+    @Override
+    public void unsubscribe() {
+        mSubscriptions.clear();
     }
 }
