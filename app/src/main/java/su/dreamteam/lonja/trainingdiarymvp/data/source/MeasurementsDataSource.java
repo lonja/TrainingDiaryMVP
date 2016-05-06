@@ -16,8 +16,6 @@ public interface MeasurementsDataSource {
 
     void saveMeasurement(@NonNull Measurement measurement);
 
-    void updateMeasurement(@NonNull Measurement measurement);
-
     void refreshMeasurements();
 
     void deleteAllMeasurements();

@@ -3,7 +3,6 @@ package su.dreamteam.lonja.trainingdiarymvp.addeditmeasurement;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -14,14 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TimePicker;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import su.dreamteam.lonja.trainingdiarymvp.BR;
 import su.dreamteam.lonja.trainingdiarymvp.R;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
 import su.dreamteam.lonja.trainingdiarymvp.databinding.FragmentAddEditMeasurementBinding;
@@ -107,29 +103,23 @@ public class AddEditMeasurementFragment
 
     @Override
     public void showSetDateTimeDialog() {
-        DatePickerDialog dialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                mYear = year;
-                mMonth = monthOfYear;
-                mDay = dayOfMonth;
-                final Calendar date = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute);
-                setTime(date);
-            }
+        DatePickerDialog dialog = new DatePickerDialog(getContext(), (view, year, monthOfYear, dayOfMonth) -> {
+            mYear = year;
+            mMonth = monthOfYear;
+            mDay = dayOfMonth;
+            final Calendar date = new GregorianCalendar(mYear, mMonth, mDay, mHour, mMinute);
+            setTime(date);
         }, mYear, mMonth, mDay);
         dialog.show();
     }
 
     private void setTime(final Calendar calendar) {
-        TimePickerDialog dialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                mHour = hourOfDay;
-                mMinute = minute;
-                calendar.set(Calendar.HOUR_OF_DAY, mHour);
-                calendar.set(Calendar.MINUTE, minute);
-                mMeasurementViewModel.setDate(calendar);
-            }
+        TimePickerDialog dialog = new TimePickerDialog(getContext(), (view, hourOfDay, minute) -> {
+            mHour = hourOfDay;
+            mMinute = minute;
+            calendar.set(Calendar.HOUR_OF_DAY, mHour);
+            calendar.set(Calendar.MINUTE, minute);
+            mMeasurementViewModel.setDate(calendar);
         }, mHour, mMinute, true);
         dialog.show();
     }
@@ -159,7 +149,6 @@ public class AddEditMeasurementFragment
 
     @Override
     public void setMeasurement(Measurement measurement) {
-        Log.e("MY", measurement.toString());
         mMeasurementViewModel.setMeasurement(measurement);
         calendar.setTime(mMeasurementViewModel.getMeasurement().getDate());
         mYear = calendar.get(Calendar.YEAR);

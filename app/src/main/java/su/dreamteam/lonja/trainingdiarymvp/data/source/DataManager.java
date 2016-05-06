@@ -2,8 +2,6 @@ package su.dreamteam.lonja.trainingdiarymvp.data.source;
 
 import android.support.annotation.NonNull;
 
-import java.util.List;
-
 import io.realm.RealmResults;
 import rx.Observable;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
@@ -35,10 +33,6 @@ public class DataManager {
     public Observable<Measurement> getMeasurement(@NonNull final String measurementId) {
         checkNotNull(measurementId);
         return mMeasurementsLocalDataSource.getMeasurement(measurementId);
-    }
-
-    public void updateMeasurement(Measurement measurement) {
-        mMeasurementsLocalDataSource.updateMeasurement(measurement);
     }
 
     public void updateMeasurement() {
