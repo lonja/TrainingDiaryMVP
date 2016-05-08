@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import su.dreamteam.lonja.trainingdiarymvp.R;
 import su.dreamteam.lonja.trainingdiarymvp.data.source.DataManager;
+import su.dreamteam.lonja.trainingdiarymvp.data.source.local.AccountLocalDataSource;
 import su.dreamteam.lonja.trainingdiarymvp.data.source.local.MeasurementsLocalDataSource;
 import su.dreamteam.lonja.trainingdiarymvp.util.ActivityUtils;
 
@@ -49,7 +50,8 @@ public class MeasurementsActivity extends AppCompatActivity {
         }
 
         mMeasurementsPresenter = new MeasurementsPresenter(
-                DataManager.getInstance(MeasurementsLocalDataSource.getInstance()),
+                DataManager.getInstance(MeasurementsLocalDataSource.getInstance(),
+                        AccountLocalDataSource.getInstance()),
                 measurementsFragment
         );
 
