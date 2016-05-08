@@ -58,7 +58,8 @@ public class MeasurementsPresenter implements MeasurementsContract.Presenter {
         }
         mSubscriptions.clear();
         Subscription subscription = mDataManager.getMeasurements()
-                .filter(measurements -> measurements != null)
+                .filter(RealmResults::isLoaded)
+                .first()
                 .doOnNext(mMeasurementsView::showMeasurements)
                 .subscribe();
         mSubscriptions.add(subscription);
