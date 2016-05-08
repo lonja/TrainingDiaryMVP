@@ -4,7 +4,9 @@ import android.support.annotation.NonNull;
 
 import io.realm.RealmResults;
 import rx.Observable;
+import su.dreamteam.lonja.trainingdiarymvp.data.Account;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
+import su.dreamteam.lonja.trainingdiarymvp.data.source.local.AccountLocalDataSource;
 import su.dreamteam.lonja.trainingdiarymvp.data.source.local.MeasurementsLocalDataSource;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -13,15 +15,20 @@ public class DataManager {
 
     private MeasurementsLocalDataSource mMeasurementsLocalDataSource;
 
+    private AccountLocalDataSource mAccountLocalDataSource;
+
     private static DataManager INSTANCE;
 
-    private DataManager(MeasurementsLocalDataSource measurementsLocalDataSource) {
+    private DataManager(MeasurementsLocalDataSource measurementsLocalDataSource,
+                        AccountLocalDataSource accountLocalDataSource) {
         mMeasurementsLocalDataSource = measurementsLocalDataSource;
+        mAccountLocalDataSource = accountLocalDataSource;
     }
 
-    public static DataManager getInstance(MeasurementsLocalDataSource measurementsLocalDataSource) {
+    public static DataManager getInstance(MeasurementsLocalDataSource measurementsLocalDataSource,
+                                          AccountLocalDataSource accountLocalDataSource) {
         if (INSTANCE == null) {
-            INSTANCE = new DataManager(measurementsLocalDataSource);
+            INSTANCE = new DataManager(measurementsLocalDataSource, accountLocalDataSource);
         }
         return INSTANCE;
     }
@@ -54,5 +61,13 @@ public class DataManager {
     public void saveMeasurement(Measurement measurement) {
         checkNotNull(measurement);
         mMeasurementsLocalDataSource.saveMeasurement(measurement);
+    }
+
+    public void saveAccount(Account account) {
+        mAccountLocalDataSource.saveAccount(account);
+    }
+
+    public Observable<Account> getAccount() {
+        return mAccountLocalDataSource.getAccount();
     }
 }

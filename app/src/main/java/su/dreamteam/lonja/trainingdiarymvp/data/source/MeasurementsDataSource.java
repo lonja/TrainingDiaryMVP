@@ -27,5 +27,4 @@ public interface MeasurementsDataSource {
     void commit();
 
     void cancel();
-
 }
