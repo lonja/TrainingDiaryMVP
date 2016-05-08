@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import su.dreamteam.lonja.trainingdiarymvp.R;
-import su.dreamteam.lonja.trainingdiarymvp.addeditmeasurement.MeasurementViewModel;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
-import su.dreamteam.lonja.trainingdiarymvp.databinding.MeasurementItemBinding;
 
 public class MeasurementsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
