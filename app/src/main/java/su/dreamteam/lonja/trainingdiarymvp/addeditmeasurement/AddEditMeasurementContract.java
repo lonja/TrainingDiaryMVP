@@ -23,39 +23,7 @@ public interface AddEditMeasurementContract {
 
     interface Presenter extends BasePresenter {
 
-        void createMeasurement(
-                Date date,
-                String comment,
-                double weight,
-                double chest,
-                double leftCalf,
-                double rightCalf,
-                double leftThigh,
-                double rightThigh,
-                double leftArm,
-                double rightArm,
-                double leftForearm,
-                double rightForearm,
-                double waist,
-                double neck);
-
         void createMeasurement(Measurement measurement);
-
-        void updateMeasurement(
-                Date date,
-                String comment,
-                double weight,
-                double chest,
-                double leftCalf,
-                double rightCalf,
-                double leftThigh,
-                double rightThigh,
-                double leftArm,
-                double rightArm,
-                double leftForearm,
-                double rightForearm,
-                double waist,
-                double neck);
 
         void setDateTime();
 

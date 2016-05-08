@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import su.dreamteam.lonja.trainingdiarymvp.R;
 import su.dreamteam.lonja.trainingdiarymvp.data.source.DataManager;
+import su.dreamteam.lonja.trainingdiarymvp.data.source.local.AccountLocalDataSource;
 import su.dreamteam.lonja.trainingdiarymvp.data.source.local.MeasurementsLocalDataSource;
 import su.dreamteam.lonja.trainingdiarymvp.util.ActivityUtils;
 
@@ -26,6 +27,7 @@ public class AddEditMeasurementActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
@@ -46,7 +48,7 @@ public class AddEditMeasurementActivity extends AppCompatActivity {
                 actionBar.setTitle(R.string.add_measurement);
             }
 
-            MeasurementViewModel viewModel = new MeasurementViewModel(this);
+            MeasurementViewModel viewModel = new MeasurementViewModel();
 
             addEditMeasurementFragment.setViewModel(viewModel);
 
@@ -55,7 +57,8 @@ public class AddEditMeasurementActivity extends AppCompatActivity {
         }
 
         new AddEditMeasurementPresenter(
-                DataManager.getInstance(MeasurementsLocalDataSource.getInstance()),
+                DataManager.getInstance(MeasurementsLocalDataSource.getInstance(),
+                        AccountLocalDataSource.getInstance()),
                 addEditMeasurementFragment,
                 measurementId
         );

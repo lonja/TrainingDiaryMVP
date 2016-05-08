@@ -2,8 +2,7 @@ package su.dreamteam.lonja.trainingdiarymvp.addeditmeasurement;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
-import java.util.Date;
+import android.util.Log;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -37,54 +36,9 @@ public class AddEditMeasurementPresenter implements AddEditMeasurementContract.P
     }
 
     @Override
-    public void createMeasurement(
-            Date date,
-            String comment,
-            double weight,
-            double chest,
-            double leftCalf,
-            double rightCalf,
-            double leftThigh,
-            double rightThigh,
-            double leftArm,
-            double rightArm,
-            double leftForearm,
-            double rightForearm,
-            double waist,
-            double neck) {
-        Measurement measurement = new Measurement(date, comment, weight, chest, leftCalf, rightCalf,
-                leftThigh, rightThigh, leftArm, rightArm, leftForearm, rightForearm, waist, neck);
-        if (measurement.isEmpty()) {
-            mAddEditMeasurementView.showEmptyMeasurementError();
-        } else {
-            mDataManager.saveMeasurement(measurement);
-            mAddEditMeasurementView.showMeasurementsList();
-        }
-    }
-
-    @Override
     public void createMeasurement(Measurement measurement) {
         mDataManager.saveMeasurement(measurement);
         mAddEditMeasurementView.showMeasurementsList();
-    }
-
-    @Override
-    public void updateMeasurement(
-            Date date,
-            String comment,
-            double weight,
-            double chest,
-            double leftCalf,
-            double rightCalf,
-            double leftThigh,
-            double rightThigh,
-            double leftArm,
-            double rightArm,
-            double leftForearm,
-            double rightForearm,
-            double waist,
-            double neck) {
-
     }
 
     @Override
@@ -110,8 +64,10 @@ public class AddEditMeasurementPresenter implements AddEditMeasurementContract.P
         }
         mSubscriptions.clear();
         Subscription subscription = mDataManager.getMeasurement(mMeasurementId)
-                .filter(measurement -> measurement.isValid())
+                .filter(measurement -> measurement.isLoaded())
+                .first()
                 .doOnNext(measurement -> {
+                    Log.e("Measurement", measurement.toString());
                     mAddEditMeasurementView.setMeasurement(measurement);
                     mDataManager.updateMeasurement();
                 })
@@ -125,10 +81,6 @@ public class AddEditMeasurementPresenter implements AddEditMeasurementContract.P
         if (mMeasurementId != null) {
             populateMeasurement();
         }
-    }
-
-    private boolean isNewMeasurement() {
-        return mMeasurementId == null;
     }
 
     @Override
