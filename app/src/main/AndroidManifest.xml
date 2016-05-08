@@ -9,8 +9,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".measurements.MeasurementsActivity"
-            android:theme="@style/AppTheme.OverlapSystemBar">
+        <activity
+            android:name=".measurements.MeasurementsActivity"
+            android:theme="@style/AppTheme.OverlapSystemBar" />
+
+        <activity
+            android:name=".accountcheck.AccountCheckActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,10 +26,15 @@
 
         <activity android:name=".wizard.WizardActivity" />
 
+        <activity
+            android:name=".wizard.accountinfo.AccountInfoActivity"
+            android:theme="@style/AppTheme.OverlapSystemBar" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="3e4cb978770358923c83aa7c08d7a23c07c93253" />
+
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>
