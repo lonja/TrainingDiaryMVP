@@ -1,20 +1,22 @@
 package su.dreamteam.lonja.trainingdiarymvp.addeditmeasurement;
 
-import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 
+import com.google.common.math.DoubleMath;
+
 import java.util.Calendar;
+import java.util.Objects;
 
 import su.dreamteam.lonja.trainingdiarymvp.BR;
 import su.dreamteam.lonja.trainingdiarymvp.data.Measurement;
 
-public class MeasurementViewModel extends BaseObservable {
+import static com.google.common.base.Preconditions.checkNotNull;
 
-    private Context mContext;
+public class MeasurementViewModel extends BaseObservable {
 
     private Measurement mMeasurement;
 
@@ -278,15 +280,9 @@ public class MeasurementViewModel extends BaseObservable {
         }
     };
 
-    public MeasurementViewModel(Context context) {
-        mContext = context;
+    public MeasurementViewModel() {
         mMeasurement = new Measurement();
-        setValues(mMeasurement);
-    }
-
-    public MeasurementViewModel(Measurement measurement) {
-        mMeasurement = measurement;
-        setValues(mMeasurement);
+        setStringsValues(mMeasurement);
     }
 
     @Bindable
@@ -323,7 +319,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setWeight(String weight) {
         this.weight = weight;
-        if (weight == ("")) {
+        if (Objects.equals(weight, "")) {
             return;
         }
         mMeasurement.setWeight(Double.parseDouble(weight));
@@ -337,7 +333,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setChest(String chest) {
         this.chest = chest;
-        if (chest == ("")) {
+        if (Objects.equals(chest, "")) {
             return;
         }
         mMeasurement.setChest(Double.parseDouble(chest));
@@ -351,7 +347,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setLeftCalf(String leftCalf) {
         this.leftCalf = leftCalf;
-        if (leftCalf == ("")) {
+        if (Objects.equals(leftCalf, "")) {
             return;
         }
         mMeasurement.setLeftCalf(Double.parseDouble(leftCalf));
@@ -365,7 +361,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setRightCalf(String rightCalf) {
         this.rightCalf = rightCalf;
-        if (rightCalf == ("")) {
+        if (Objects.equals(rightCalf, "")) {
             return;
         }
         mMeasurement.setRightCalf(Double.parseDouble(rightCalf));
@@ -379,7 +375,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setLeftThigh(String leftThigh) {
         this.leftThigh = leftThigh;
-        if (leftThigh == ("")) {
+        if (Objects.equals(leftThigh, "")) {
             return;
         }
         mMeasurement.setLeftThigh(Double.parseDouble(leftThigh));
@@ -393,7 +389,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setRightThigh(String rightThigh) {
         this.rightThigh = rightThigh;
-        if (rightThigh == ("")) {
+        if (Objects.equals(rightThigh, "")) {
             return;
         }
         mMeasurement.setRightThigh(Double.parseDouble(rightThigh));
@@ -407,7 +403,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setLeftArm(String leftArm) {
         this.leftArm = leftArm;
-        if (leftArm == ("")) {
+        if (Objects.equals(leftArm, "")) {
             return;
         }
         mMeasurement.setLeftArm(Double.parseDouble(leftArm));
@@ -421,7 +417,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setRightArm(String rightArm) {
         this.rightArm = rightArm;
-        if (rightForearm == "") {
+        if (Objects.equals(rightForearm, "")) {
             return;
         }
         mMeasurement.setRightArm(Double.parseDouble(rightArm));
@@ -435,7 +431,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setLeftForearm(String leftForearm) {
         this.leftForearm = leftForearm;
-        if (leftForearm == "") {
+        if (Objects.equals(leftForearm, "")) {
             return;
         }
         mMeasurement.setLeftForearm(Double.parseDouble(leftForearm));
@@ -450,7 +446,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setRightForearm(String rightForearm) {
         this.rightForearm = rightForearm;
-        if (rightForearm == ("")) {
+        if (Objects.equals(rightForearm, "")) {
             return;
         }
         mMeasurement.setRightForearm(Double.parseDouble(rightForearm));
@@ -464,7 +460,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setWaist(String waist) {
         this.waist = waist;
-        if (waist == ("")) {
+        if (Objects.equals(waist, "")) {
             return;
         }
         mMeasurement.setWaist(Double.parseDouble(waist));
@@ -478,7 +474,7 @@ public class MeasurementViewModel extends BaseObservable {
 
     public void setNeck(String neck) {
         this.neck = neck;
-        if (neck == ("")) {
+        if (Objects.equals(neck, "")) {
             return;
         }
         mMeasurement.setNeck(Double.parseDouble(neck));
@@ -533,36 +529,145 @@ public class MeasurementViewModel extends BaseObservable {
         return mNeckTextWatcher;
     }
 
-    private void setValues(Measurement measurement) {
-        weight = measurement.getWeight() == null ? null : Double.toString(measurement.getWeight());
+    private void setStringsValues(Measurement measurement) {
+        checkNotNull(measurement);
+        Double weightDouble = measurement.getWeight();
+        Double chestDouble = measurement.getChest();
+        Double leftCalfDouble = measurement.getLeftCalf();
+        Double rightCalfDouble = measurement.getRightCalf();
+        Double leftThighDouble = measurement.getLeftThigh();
+        Double rightThighDouble = measurement.getRightThigh();
+        Double leftArmDouble = measurement.getLeftArm();
+        Double rightArmDouble = measurement.getRightArm();
+        Double leftForearmDouble = measurement.getLeftForearm();
+        Double rightForearmDouble = measurement.getRightForearm();
+        Double waistDouble = measurement.getWaist();
+        Double neckDouble = measurement.getNeck();
+
+        if (weightDouble == null) {
+            weight = null;
+        } else if (DoubleMath.isMathematicalInteger(weightDouble)) {
+            weight = Integer.toString(weightDouble.intValue());
+        } else {
+            weight = weightDouble.toString();
+        }
+
+        if (chestDouble == null) {
+            chest = null;
+        }
+        else if (DoubleMath.isMathematicalInteger(chestDouble)) {
+            chest = Integer.toString(chestDouble.intValue());
+        } else {
+            chest = chestDouble.toString();
+        }
+
+        if (leftCalfDouble == null) {
+            chest = null;
+        }
+        else if (DoubleMath.isMathematicalInteger(leftCalfDouble)) {
+            leftCalf = Integer.toString(leftCalfDouble.intValue());
+        } else {
+            leftCalf = leftCalfDouble.toString();
+        }
+
+        if (rightCalfDouble == null) {
+            chest = null;
+        }
+        else if (DoubleMath.isMathematicalInteger(rightCalfDouble)) {
+            rightCalf = Integer.toString(rightCalfDouble.intValue());
+        } else {
+            rightCalf = rightCalfDouble.toString();
+        }
+
+        if (leftThighDouble == null) {
+            chest = null;
+        }
+        else if (DoubleMath.isMathematicalInteger(leftThighDouble)) {
+            leftThigh = Integer.toString(leftThighDouble.intValue());
+        } else {
+            leftThigh = leftThighDouble.toString();
+        }
+
+        if (rightThighDouble == null) {
+            chest = null;
+        }
+        else if (DoubleMath.isMathematicalInteger(rightThighDouble)) {
+            rightThigh = Integer.toString(rightThighDouble.intValue());
+        } else {
+            rightThigh = rightThighDouble.toString();
+        }
+
+        if (leftArmDouble == null) {
+            chest = null;
+        }
+        else if (DoubleMath.isMathematicalInteger(leftArmDouble)) {
+            leftArm = Integer.toString(leftArmDouble.intValue());
+        } else {
+            leftArm = leftArmDouble.toString();
+        }
+
+        if (rightArmDouble == null) {
+            chest = null;
+        }
+        else if (DoubleMath.isMathematicalInteger(rightArmDouble)) {
+            rightArm = Integer.toString(rightArmDouble.intValue());
+        } else {
+            rightArm = rightArmDouble.toString();
+        }
+
+        if (leftForearmDouble == null) {
+            chest = null;
+        }
+        else if (DoubleMath.isMathematicalInteger(leftForearmDouble)) {
+            leftForearm = Integer.toString(leftForearmDouble.intValue());
+        } else {
+            leftForearm = leftForearmDouble.toString();
+        }
+
+        if (rightForearmDouble == null) {
+            chest = null;
+        }
+        else if (DoubleMath.isMathematicalInteger(rightForearmDouble)) {
+            rightForearm = Integer.toString(rightForearmDouble.intValue());
+        } else {
+            rightForearm = rightForearmDouble.toString();
+        }
+
+        if (waistDouble == null) {
+            chest = null;
+        }
+        else if (DoubleMath.isMathematicalInteger(waistDouble)) {
+            waist = Integer.toString(waistDouble.intValue());
+        } else {
+            waist = waistDouble.toString();
+        }
+
+        if (neckDouble == null) {
+            chest = null;
+        }
+        else if (DoubleMath.isMathematicalInteger(neckDouble)) {
+            neck = Integer.toString(neckDouble.intValue());
+        } else {
+            neck = neckDouble.toString();
+        }
+
         notifyPropertyChanged(BR.weight);
-        chest = measurement.getChest() == null ? null : Double.toString(measurement.getChest());
         notifyPropertyChanged(BR.chest);
-        leftCalf = measurement.getLeftCalf() == null ? null : Double.toString(measurement.getLeftCalf());
         notifyPropertyChanged(BR.leftCalf);
-        rightCalf = measurement.getRightCalf() == null ? null : Double.toString(measurement.getRightCalf());
         notifyPropertyChanged(BR.rightCalf);
-        leftThigh = measurement.getLeftThigh() == null ? null : Double.toString(measurement.getLeftThigh());
         notifyPropertyChanged(BR.leftThigh);
-        rightThigh = measurement.getRightThigh() == null ? null : Double.toString(measurement.getRightThigh());
         notifyPropertyChanged(BR.rightThigh);
-        leftArm = measurement.getLeftArm() == null ? null : Double.toString(measurement.getLeftArm());
         notifyPropertyChanged(BR.leftArm);
-        rightArm = measurement.getRightArm() == null ? null : Double.toString(measurement.getRightArm());
         notifyPropertyChanged(BR.rightArm);
-        leftForearm = measurement.getLeftForearm() == null ? null : Double.toString(measurement.getLeftForearm());
         notifyPropertyChanged(BR.leftForearm);
-        rightForearm = measurement.getRightForearm() == null ? null : Double.toString(measurement.getRightForearm());
         notifyPropertyChanged(BR.rightForearm);
-        waist = measurement.getWaist() == null ? null : Double.toString(measurement.getWaist());
         notifyPropertyChanged(BR.waist);
-        neck = measurement.getNeck() == null ? null : Double.toString(measurement.getNeck());
         notifyPropertyChanged(BR.neck);
     }
 
     public void setMeasurement(Measurement measurement) {
         mMeasurement = measurement;
-        setValues(measurement);
+        setStringsValues(measurement);
     }
 
     public Measurement getMeasurement() {
